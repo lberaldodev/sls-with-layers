@@ -1,0 +1,22 @@
+service: sls-with-layer
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - http:
+          path: hello
+          method: get
+    #No build ele identifica qual arn que tem que utilizar.
+    layers:
+      - {Ref: NodeModulesLambdaLayer}
+
+layers:
+  NodeModules:
+    path: layer
+    compatibleRunTimes:
+      - nodejs12.x
